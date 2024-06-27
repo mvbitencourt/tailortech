@@ -60,6 +60,10 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
+app.get('/register', (req, res) => {
+    res.render('register'); // Adicionando a rota para a página de cadastro
+});
+
 // Rota padrão para lidar com outros caminhos
 app.use((req, res) => {
     res.status(404).send('Página não encontrada');
