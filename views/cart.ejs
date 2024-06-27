@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - TailorTech</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">TailorTech</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#about">Sobre Nós</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#products">Produtos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#customization">Customização</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#contact">Contato</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Carrinho Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h2 class="text-center">Carrinho</h2>
+            <div id="cart-items" class="cart-items">
+                <!-- Produtos serão inseridos aqui via JavaScript -->
+            </div>
+            <div class="cart-total text-right">
+                <h3>Total: R$ <span id="cart-total">0.00</span></h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulário de Entrega -->
+    <section class="delivery-form-section">
+        <div class="container">
+            <h2 class="text-center">Dados de Entrega</h2>
+            <form id="delivery-form" class="customization-form">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="E-mail">
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="contato" name="contato" placeholder="Telefone (com DDD)">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Rua, Bairro e Número">
+                </div>
+                <button id="checkout-btn" type="submit" class="btn btn-lg">Finalizar Compra</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="background-color: #353535; color: white;">
+        <div class="container text-center">
+            <p>© 2024. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Produtos de exemplo no carrinho
+        const cartItems = [
+            { id: 1, name: 'Mouse', price: 399.90, image: 'mouse.jpg' },
+            { id: 2, name: 'Teclado', price: 449.90, image: 'teclado.jpg' },
+            { id: 3, name: 'Mousepad', price: 39.90, image: 'mousepad.jpg' },
+            { id: 4, name: 'Headset', price: 559.90, image: 'headset.jpg' },
+        ];
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            cartItems.forEach(item => {
+                total += item.price;
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item row';
+                itemElement.innerHTML = `
+                    <div class="col-md-3">
+                        <img src="${item.image}" alt="${item.name}" class="img-fluid">
+                    </div>
+                    <div class="col-md-6">
+                        <h5>${item.name}</h5>
+                        <p>R$${item.price.toFixed(2)}</p>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <button class="btn btn-danger remove-btn" data-id="${item.id}">Remover</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+
+            cartTotalElement.innerText = total.toFixed(2);
+        }
+
+        function handleRemoveButtonClick(event) {
+            if (event.target.classList.contains('remove-btn')) {
+                const itemId = parseInt(event.target.getAttribute('data-id'));
+                const itemIndex = cartItems.findIndex(item => item.id === itemId);
+                if (itemIndex > -1) {
+                    cartItems.splice(itemIndex, 1);
+                    renderCartItems();
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCartItems();
+            document.getElementById('cart-items').addEventListener('click', handleRemoveButtonClick);
+            document.getElementById('checkout-btn').addEventListener('click', () => {
+                alert('Compra finalizada! Agora é só aguardar pela entrega.');
+                // Aqui você pode adicionar a lógica para finalizar a compra, como chamar uma API ou redirecionar para uma página de confirmação.
+            });
+
+            // Evento de envio do formulário de entrega
+            document.getElementById('delivery-form').addEventListener('submit', (event) => {
+                event.preventDefault(); // Previne o envio padrão do formulário
+
+                // Aqui você pode adicionar a lógica para processar os dados do formulário
+                // Exemplo: enviar para um servidor, armazenar em um banco de dados, etc.
+
+                alert('Dados de entrega enviados com sucesso!');
+                document.getElementById('delivery-form').reset(); // Limpa o formulário após o envio
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TailorTech</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">TailorTech</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#about">Sobre Nós</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#products">Produtos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#customization">Customização</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#contact">Contato</a></li>
+                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="home-section" style="background-image: url('/img/capa.jpg');">
+        <div class="overlay" style="background-color: rgba(237, 245, 225, 0.7);">
+            <h1>TailorTech</h1>
+            <p>Periféricos personalizáveis</p>
+            <a href="#products" class="btn btn-lg" style="background-color: #ff9966; color: white; border-radius: 20px;">Compre agora</a>
+        </div>
+    </section>
+
+    <!-- Sobre Nós Section -->
+    <section id="about" class="about-section" style="background-color: #edf5e1;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Sobre nós</h2>
+                    <p>Nosso e-commerce oferece uma variedade de periféricos personalizáveis, incluindo mouse, teclado, mousepad e headset. Cada produto é customizável, permitindo que você escolha entre diferentes designs, cores, padrões e até mesmo temas personalizados. Nosso foco é fornecer produtos que combinam funcionalidade com estilo exclusivo, atendendo às suas necessidades e preferências individuais.</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="/img/sobre.jpg" alt="Sobre" class="img-fluid mb-3">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produtos Section -->
+    <section id="products" class="products-section">
+        <div class="container">
+            <h2 class="text-center">Produtos</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="product-box">
+                        <img src="/img/mouse.jpg" alt="Mouse" class="img-fluid mb-3">
+                        <h5>Mouse chamas</h5>
+                        <p>R$399,90</p>
+                        <a href="/cart" class="btn btn-lg" style="background-color: #5cdb95; color: white; border-radius: 20px;">Adicionar ao carrinho</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="product-box">
+                        <img src="/img/teclado.jpg" alt="Teclado" class="img-fluid mb-3">
+                        <h5>Teclado colorido</h5>
+                        <p>R$449,90</p>
+                        <a href="/cart" class="btn btn-lg" style="background-color: #5cdb95; color: white; border-radius: 20px;">Adicionar ao carrinho</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="product-box">
+                        <img src="/img/mousepad.jpg" alt="Mousepad" class="img-fluid mb-3">
+                        <h5>Mousepad coruja</h5>
+                        <p>R$39,90</p>
+                        <a href="/cart" class="btn btn-lg" style="background-color: #5cdb95; color: white; border-radius: 20px;">Adicionar ao carrinho</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="product-box">
+                        <img src="/img/headset.jpg" alt="Headset" class="img-fluid mb-3">
+                        <h5>Headset floral</h5>
+                        <p>R$559,90</p>
+                        <a href="/cart" class="btn btn-lg" style="background-color: #5cdb95; color: white; border-radius: 20px;">Adicionar ao carrinho</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customização Section -->
+    <section id="customization" class="customization-section">
+        <div class="container">
+            <h2 class="text-center">Customização</h2>
+            <p class="text-center">Faça aqui a descrição do produto que você quer personalizar</p>
+            <form class="customization-form">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Nome">
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" rows="5" placeholder="Descrição do produto (design, cor, tipo [mouse, teclado, mousepad ou headset])"></textarea>
+                </div>
+                <button type="submit" class="btn btn-lg" style="background-color: #ff9966; color: white; border-radius: 20px;">Enviar mensagem</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contato Section -->
+    <section id="contact" class="contact-section" style="background-color: #edf5e1;">
+        <div class="container">
+            <h2 class="text-center">Contato</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contact-box text-center">
+                        <i class="fas fa-phone"></i>
+                        <h3>Telefone</h3>
+                        <p>(73) 98123-4567</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="contact-box text-center">
+                        <i class="fas fa-envelope"></i>
+                        <h3>Email</h3>
+                        <p>contato@tailortech.com</p>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="contact-box text-center">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h3>Horário de funcionamento</h3>
+                        <p>9:00 - 18:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="background-color: #353535; color: white;">
+        <div class="container text-center">
+            <p>© 2024. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

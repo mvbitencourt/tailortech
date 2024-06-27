@@ -1,0 +1,298 @@
+body {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background-color: #edf5e1;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #ff9966;
+    padding: 10px 0;
+}
+
+.navbar-brand {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #333 !important;
+}
+
+.nav-link:hover {
+    color: #ff9966 !important;
+}
+
+/* Home Section */
+.home-section {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.home-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+.home-section h1 {
+    font-size: 5em;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #000;
+}
+
+.home-section p {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.home-section .btn {
+    background-color: #ff9966;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+/* Sobre Nós Section */
+.about-section {
+    padding: 50px 0;
+}
+
+.about-section h2 {
+    color: #000;
+}
+
+.about-section p {
+    color: #333;
+}
+
+.about-section img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Produtos Section */
+.products-section {
+    background-color: #fff;
+    padding: 50px 0;
+}
+
+.products-section h2 {
+    color: #000;
+    margin-bottom: 30px;
+}
+
+.product-box {
+    background-color: #edf5e1;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.product-box img {
+    max-width: 100%; 
+    height: 170px; 
+    border-radius: 10px;
+}
+
+.product-box h5 {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #000;
+}
+
+.product-box p {
+    color: #333;
+    margin-top: 10px;
+}
+
+.product-box .btn {
+    background-color: #5cdb95;
+    color: white;
+    border-radius: 20px;
+    margin-top: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+/* Customização Section */
+.customization-section {
+    background-color: #fff;
+    padding: 50px 0;
+}
+
+.customization-section h2 {
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.customization-section p {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.customization-form .form-control {
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.customization-form .btn {
+    background-color: #ff9966;
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+/* Contato Section */
+.contact-section {
+    padding: 50px 0;
+}
+
+.contact-section h2 {
+    color: #000;
+    margin-bottom: 30px;
+}
+
+.contact-box {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.contact-box i {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #5cdb95;
+}
+
+.contact-box h3 {
+    font-size: 1.2em;
+    color: #000;
+}
+
+.contact-box p {
+    color: #333;
+}
+
+/* Footer */
+.footer {
+    background-color: #353535;
+    color: white;
+    padding: 20px 0;
+}
+
+.footer p {
+    margin: 0;
+}
+
+/* Carrinho Section */
+.cart-section {
+    padding: 50px 0;
+}
+
+.cart-section h2 {
+    color: #000;
+    margin-bottom: 30px;
+}
+
+.cart-item {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cart-item img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.cart-item h5 {
+    font-size: 1.2em;
+    color: #000;
+}
+
+.cart-item p {
+    color: #333;
+}
+
+.cart-total {
+    margin-top: 20px;
+}
+
+.cart-total h3 {
+    color: #000;
+}
+
+/* Formulário de Entrega Section*/
+.delivery-form-section {
+    background-color: #edf5e1; /* Cor de fundo */
+    padding: 50px 0; /* Espaçamento interno superior e inferior */
+}
+
+.delivery-form-section h2 {
+    color: #333; /* Cor do título */
+    margin-bottom: 30px; /* Margem inferior do título */
+}
+
+.customization-form .form-control {
+    border-radius: 20px; /* Borda arredondada para os campos de entrada */
+    margin-bottom: 20px; /* Margem inferior dos campos de entrada */
+}
+
+.customization-form .btn {
+    background-color: #ff9966; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    border-radius: 20px; /* Borda arredondada do botão */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    display: block;
+    margin-left: auto
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+}
+
+.login-box {
+    background-color: #edf5e1;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-box form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
