@@ -297,3 +297,12 @@ header {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+
+.login-box button {
+    background-color: #ff9966;
+    color: white;
+    border-radius: 10px;
+    padding: 3px 7px;
+    font-size: 1em;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); 
+}
