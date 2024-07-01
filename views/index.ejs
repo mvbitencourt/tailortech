@@ -42,20 +42,20 @@
         </div>
     </section>
 
-    <!-- Sobre Nós Section -->
-    <section id="about" class="about-section" style="background-color: #edf5e1;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>Sobre nós</h2>
-                    <p>Nosso e-commerce oferece uma variedade de periféricos personalizáveis, incluindo mouse, teclado, mousepad e headset. Cada produto é customizável, permitindo que você escolha entre diferentes designs, cores, padrões e até mesmo temas personalizados. Nosso foco é fornecer produtos que combinam funcionalidade com estilo exclusivo, atendendo às suas necessidades e preferências individuais.</p>
-                </div>
-                <div class="col-md-6">
-                    <img src="/img/sobre.jpg" alt="Sobre" class="img-fluid mb-3">
+        <!-- Sobre Nós Section -->
+        <section id="about" class="about-section" style="background-color: #edf5e1;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Sobre nós</h2>
+                        <p>Nosso e-commerce oferece uma variedade de periféricos personalizáveis, incluindo mouse, teclado, mousepad e headset. Cada produto é customizável, permitindo que você escolha entre diferentes designs, cores, padrões e até mesmo temas personalizados. Nosso foco é fornecer produtos que combinam funcionalidade com estilo exclusivo, atendendo às suas necessidades e preferências individuais.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="/img/sobre.jpg" alt="Sobre" class="img-fluid mb-3">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
     <!-- Produtos Section -->
     <section id="products" class="products-section">
@@ -97,15 +97,15 @@
         <div class="container">
             <h2 class="text-center">Customização</h2>
             <p class="text-center">Faça aqui a descrição do produto que você quer personalizar</p>
-            <form class="customization-form">
+            <form class="customization-form" action="/customization" method="POST">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Nome">
+                    <input type="text" class="form-control" name="nome" placeholder="Nome" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email">
+                    <input type="email" class="form-control" name="email" placeholder="Email" required>
                 </div>
                 <div class="form-group">
-                    <textarea class="form-control" rows="5" placeholder="Descrição do produto (design, cor, tipo [mouse, teclado, mousepad ou headset])"></textarea>
+                    <textarea class="form-control" name="descricao" rows="5" placeholder="Descrição do produto (design, cor, tipo [mouse, teclado, mousepad ou headset])" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-lg">Enviar mensagem</button>
             </form>

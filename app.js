@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'CHAVE-SECRETA-ALIMENTE-O-CAVALO-DA-DIREITA',
+    secret: 'NOVA-CHAVE-SECRETA-ALEATORIA',
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false }
@@ -65,19 +65,7 @@ app.post('/login', (req, res) => {
         }
         if (results.length > 0) {
             req.session.user = results[0];
-
-            // Recuperar o carrinho do usuário
-            const queryCarrinho = 'SELECT id FROM Carrinhos WHERE usuario_id = ?';
-            db.query(queryCarrinho, [req.session.user.id], (err, results) => {
-                if (err) {
-                    console.error('Erro ao buscar carrinho no banco de dados:', err);
-                    return res.status(500).send('Erro ao buscar carrinho');
-                }
-                if (results.length > 0) {
-                    req.session.carrinhoId = results[0].id;
-                }
-                res.redirect('/');
-            });
+            res.redirect('/');
         } else {
             res.status(401).send('Email ou senha incorretos');
         }
@@ -99,78 +87,91 @@ app.post('/register', (req, res) => {
     const { nome, email, senha, telefone, endereco } = req.body;
 
     // Inserir dados no banco de dados
-    const queryUsuario = 'INSERT INTO Usuarios (nome, email, senha, celular, endereco) VALUES (?, ?, ?, ?, ?)';
-    db.query(queryUsuario, [nome, email, senha, telefone, endereco], (err, results) => {
+    const query = 'INSERT INTO Usuarios (nome, email, senha, celular, endereco) VALUES (?, ?, ?, ?, ?)';
+    db.query(query, [nome, email, senha, telefone, endereco], (err, results) => {
         if (err) {
             console.error('Erro ao inserir dados no banco de dados:', err);
             return res.status(500).send('Erro ao salvar dados');
         }
-        const userId = results.insertId;
-
-        // Criar carrinho para o novo usuário
-        const queryCarrinho = 'INSERT INTO Carrinhos (usuario_id) VALUES (?)';
-        db.query(queryCarrinho, [userId], (err, results) => {
-            if (err) {
-                console.error('Erro ao criar carrinho para o usuário:', err);
-                return res.status(500).send('Erro ao criar carrinho');
-            }
-            res.redirect('/login');
-        });
+        res.redirect('/login');
     });
 });
 
 // Rota para adicionar produtos ao carrinho
 app.post('/addToCart', (req, res) => {
     const produtoId = req.body.id;
-    const carrinhoId = req.session.carrinhoId;
+    const userId = req.session.user.id;
 
-    if (!carrinhoId) {
-        return res.status(400).send({ success: false, message: 'Carrinho não encontrado' });
-    }
-
-    adicionarProdutoAoCarrinho(carrinhoId, produtoId, res);
-});
-
-function adicionarProdutoAoCarrinho(carrinhoId, produtoId, res) {
     // Buscar o preço do produto
-    const queryPrecoProduto = 'SELECT preco FROM Produtos WHERE id = ?';
-    db.query(queryPrecoProduto, [produtoId], (err, results) => {
+    const queryProduto = 'SELECT preco FROM Produtos WHERE id = ?';
+    db.query(queryProduto, [produtoId], (err, produtoResults) => {
         if (err) {
-            console.error('Erro ao buscar preço do produto no banco de dados:', err);
+            console.error('Erro ao buscar produto no banco de dados:', err);
             return res.status(500).send({ success: false });
         }
-        const produtoPreco = results[0].preco;
 
-        // Verificar se o produto já está no carrinho
-        const queryProduto = 'SELECT * FROM Produtos_Carrinho WHERE carrinho_id = ? AND produto_id = ?';
-        db.query(queryProduto, [carrinhoId, produtoId], (err, results) => {
+        const precoProduto = produtoResults[0].preco;
+
+        // Verificar se o carrinho já existe para o usuário
+        const queryCarrinho = 'SELECT id FROM Carrinhos WHERE usuario_id = ?';
+        db.query(queryCarrinho, [userId], (err, results) => {
             if (err) {
-                console.error('Erro ao buscar produto no carrinho no banco de dados:', err);
+                console.error('Erro ao buscar carrinho no banco de dados:', err);
                 return res.status(500).send({ success: false });
             }
 
+            let carrinhoId;
+
             if (results.length > 0) {
-                // Produto já está no carrinho, incrementar quantidade
-                const queryAtualizarQuantidade = 'UPDATE Produtos_Carrinho SET quantidade = quantidade + 1 WHERE carrinho_id = ? AND produto_id = ?';
-                db.query(queryAtualizarQuantidade, [carrinhoId, produtoId], (err, results) => {
-                    if (err) {
-                        console.error('Erro ao atualizar quantidade do produto no carrinho no banco de dados:', err);
-                        return res.status(500).send({ success: false });
-                    }
-                    res.send({ success: true });
-                });
+                // Carrinho já existe
+                carrinhoId = results[0].id;
+                adicionarProdutoAoCarrinho(carrinhoId, produtoId, precoProduto, res);
             } else {
-                // Adicionar novo produto ao carrinho
-                const queryNovoProduto = 'INSERT INTO Produtos_Carrinho (carrinho_id, produto_id, quantidade, preco) VALUES (?, ?, 1, ?)';
-                db.query(queryNovoProduto, [carrinhoId, produtoId, produtoPreco], (err, results) => {
+                // Criar novo carrinho
+                const queryNovoCarrinho = 'INSERT INTO Carrinhos (usuario_id) VALUES (?)';
+                db.query(queryNovoCarrinho, [userId], (err, results) => {
                     if (err) {
-                        console.error('Erro ao adicionar produto ao carrinho no banco de dados:', err);
+                        console.error('Erro ao criar novo carrinho no banco de dados:', err);
                         return res.status(500).send({ success: false });
                     }
-                    res.send({ success: true });
+                    carrinhoId = results.insertId;
+                    adicionarProdutoAoCarrinho(carrinhoId, produtoId, precoProduto, res);
                 });
             }
         });
+    });
+});
+
+function adicionarProdutoAoCarrinho(carrinhoId, produtoId, precoProduto, res) {
+    // Verificar se o produto já está no carrinho
+    const queryProduto = 'SELECT * FROM Produtos_Carrinho WHERE carrinho_id = ? AND produto_id = ?';
+    db.query(queryProduto, [carrinhoId, produtoId], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar produto no carrinho no banco de dados:', err);
+            return res.status(500).send({ success: false });
+        }
+
+        if (results.length > 0) {
+            // Produto já está no carrinho, incrementar quantidade
+            const queryAtualizarQuantidade = 'UPDATE Produtos_Carrinho SET quantidade = quantidade + 1 WHERE carrinho_id = ? AND produto_id = ?';
+            db.query(queryAtualizarQuantidade, [carrinhoId, produtoId], (err, results) => {
+                if (err) {
+                    console.error('Erro ao atualizar quantidade do produto no carrinho no banco de dados:', err);
+                    return res.status(500).send({ success: false });
+                }
+                res.send({ success: true });
+            });
+        } else {
+            // Adicionar novo produto ao carrinho
+            const queryNovoProduto = 'INSERT INTO Produtos_Carrinho (carrinho_id, produto_id, quantidade, preco) VALUES (?, ?, 1, ?)';
+            db.query(queryNovoProduto, [carrinhoId, produtoId, precoProduto], (err, results) => {
+                if (err) {
+                    console.error('Erro ao adicionar produto ao carrinho no banco de dados:', err);
+                    return res.status(500).send({ success: false });
+                }
+                res.send({ success: true });
+            });
+        }
     });
 }
 
@@ -178,7 +179,7 @@ function adicionarProdutoAoCarrinho(carrinhoId, produtoId, res) {
 app.get('/cart', (req, res) => {
     const userId = req.session.user.id;
     const queryCarrinho = `
-        SELECT p.nome_produto, p.preco, pc.quantidade
+        SELECT p.id, p.nome_produto, p.preco, pc.quantidade
         FROM Produtos p
         JOIN Produtos_Carrinho pc ON p.id = pc.produto_id
         JOIN Carrinhos c ON c.id = pc.carrinho_id
@@ -189,66 +190,161 @@ app.get('/cart', (req, res) => {
             console.error('Erro ao buscar produtos do carrinho no banco de dados:', err);
             return res.status(500).send('Erro ao buscar produtos do carrinho');
         }
-        res.render('cart', { produtosCarrinho: results, user: req.session.user });
+
+        // Calcular o total
+        let total = 0;
+        results.forEach(produto => {
+            total += produto.preco * produto.quantidade;
+        });
+
+        res.render('cart', { produtosCarrinho: results, total, user: req.session.user });
     });
 });
 
-// Rota para processar o formulário de entrega e finalizar a compra
+// Rota para processar o formulário de customização
+app.post('/customization', (req, res) => {
+    const { nome, email, descricao } = req.body;
+    const userId = req.session.user.id;
+
+    // Inserir dados no banco de dados
+    const query = 'INSERT INTO formulario_solicitacao_item_customizado (usuario_id, nome, email, descricao_item) VALUES (?, ?, ?, ?)';
+    db.query(query, [userId, nome, email, descricao], (err, results) => {
+        if (err) {
+            console.error('Erro ao inserir dados no banco de dados:', err);
+            return res.status(500).send('Erro ao salvar dados');
+        }
+        res.send('<script>alert("Formulário enviado com sucesso!"); window.location.href = "/";</script>');
+    });
+});
+
+
+// Rota para finalizar a compra
 app.post('/checkout', (req, res) => {
     const { nome, email, contato, estado, cidade, endereco } = req.body;
-    const carrinhoId = req.session.carrinhoId;
+    const userId = req.session.user.id;
 
-    // Verificar se o carrinhoId está disponível
-    if (!carrinhoId) {
-        return res.status(400).send('Carrinho não encontrado');
-    }
-
-    // Inserir dados do formulário de entrega
-    const queryFormulario = 'INSERT INTO Formulario_Carrinho (carrinho_id, nome, contato, endereco_entrega) VALUES (?, ?, ?, ?)';
-    db.query(queryFormulario, [carrinhoId, nome, contato, `${estado}, ${cidade}, ${endereco}`], (err, results) => {
+    // Buscar o carrinho do usuário
+    const queryCarrinho = 'SELECT id FROM Carrinhos WHERE usuario_id = ?';
+    db.query(queryCarrinho, [userId], (err, carrinhoResults) => {
         if (err) {
-            console.error('Erro ao inserir dados do formulário de entrega no banco de dados:', err);
+            console.error('Erro ao buscar carrinho no banco de dados:', err);
             return res.status(500).send('Erro ao finalizar compra');
         }
-        const formularioId = results.insertId;
 
-        // Calcular o preço total
+        const carrinhoId = carrinhoResults[0].id;
+
+        // Calcular o preço total do carrinho
         const queryPrecoTotal = 'SELECT SUM(preco * quantidade) AS preco_total FROM Produtos_Carrinho WHERE carrinho_id = ?';
-        db.query(queryPrecoTotal, [carrinhoId], (err, results) => {
+        db.query(queryPrecoTotal, [carrinhoId], (err, precoTotalResults) => {
             if (err) {
                 console.error('Erro ao calcular preço total:', err);
                 return res.status(500).send('Erro ao finalizar compra');
             }
-            const precoTotal = results[0].preco_total;
 
-            // Inserir dados na tabela Compras_Confirmadas
-            const queryComprasConfirmadas = 'INSERT INTO Compras_Confirmadas (carrinho_id, formulario_id, preco_total) VALUES (?, ?, ?)';
-            db.query(queryComprasConfirmadas, [carrinhoId, formularioId, precoTotal], (err, results) => {
+            const precoTotal = precoTotalResults[0].preco_total;
+
+            // Inserir dados do formulário no banco de dados
+            const queryFormulario = 'INSERT INTO Formulario_Carrinho (carrinho_id, nome, contato, endereco_entrega) VALUES (?, ?, ?, ?)';
+            db.query(queryFormulario, [carrinhoId, nome, contato, endereco], (err, formularioResults) => {
                 if (err) {
-                    console.error('Erro ao inserir dados na tabela Compras_Confirmadas:', err);
+                    console.error('Erro ao inserir dados do formulário de entrega no banco de dados:', err);
                     return res.status(500).send('Erro ao finalizar compra');
                 }
 
-                // Atualizar a coluna compra_id na tabela Formulario_Carrinho
-                const compraId = results.insertId;
-                const queryAtualizarFormulario = 'UPDATE Formulario_Carrinho SET compra_id = ? WHERE id = ?';
-                db.query(queryAtualizarFormulario, [compraId, formularioId], (err, results) => {
+                const formularioId = formularioResults.insertId;
+
+                // Inserir dados da compra confirmada no banco de dados
+                const queryCompra = 'INSERT INTO Compras_Confirmadas (carrinho_id, formulario_id, preco_total) VALUES (?, ?, ?)';
+                db.query(queryCompra, [carrinhoId, formularioId, precoTotal], (err, compraResults) => {
                     if (err) {
-                        console.error('Erro ao atualizar formulário de entrega com ID da compra:', err);
+                        console.error('Erro ao inserir dados da compra confirmada no banco de dados:', err);
                         return res.status(500).send('Erro ao finalizar compra');
                     }
 
-                    // Esvaziar a tabela Produtos_Carrinho para o carrinho do usuário
-                    const queryEsvaziarCarrinho = 'DELETE FROM Produtos_Carrinho WHERE carrinho_id = ?';
-                    db.query(queryEsvaziarCarrinho, [carrinhoId], (err, results) => {
+                    const compraId = compraResults.insertId;
+
+                    // Atualizar o ID da compra no formulário de entrega
+                    const queryAtualizarFormulario = 'UPDATE Formulario_Carrinho SET compra_id = ? WHERE id = ?';
+                    db.query(queryAtualizarFormulario, [compraId, formularioId], (err) => {
                         if (err) {
-                            console.error('Erro ao esvaziar o carrinho no banco de dados:', err);
+                            console.error('Erro ao atualizar o formulário de entrega no banco de dados:', err);
                             return res.status(500).send('Erro ao finalizar compra');
                         }
-                        res.send('Compra finalizada com sucesso');
+
+                        // Esvaziar o carrinho
+                        const queryEsvaziarCarrinho = 'DELETE FROM Produtos_Carrinho WHERE carrinho_id = ?';
+                        db.query(queryEsvaziarCarrinho, [carrinhoId], (err) => {
+                            if (err) {
+                                console.error('Erro ao esvaziar o carrinho no banco de dados:', err);
+                                return res.status(500).send('Erro ao finalizar compra');
+                            }
+
+                            // Redirecionar para a página de confirmação de compra
+                            res.send('<script>alert("Compra finalizada com sucesso!"); window.location.href = "/";</script>');
+                        });
                     });
                 });
             });
+        });
+    });
+});
+
+// Rota para atualizar a quantidade de um produto no carrinho
+app.post('/updateQuantity', (req, res) => {
+    const { id, action } = req.body;
+    const userId = req.session.user.id;
+
+    // Buscar o carrinho do usuário
+    const queryCarrinho = 'SELECT id FROM Carrinhos WHERE usuario_id = ?';
+    db.query(queryCarrinho, [userId], (err, carrinhoResults) => {
+        if (err) {
+            console.error('Erro ao buscar carrinho no banco de dados:', err);
+            return res.status(500).send({ success: false });
+        }
+
+        const carrinhoId = carrinhoResults[0].id;
+
+        // Atualizar a quantidade do produto
+        let queryAtualizarQuantidade;
+        if (action === 'increase') {
+            queryAtualizarQuantidade = 'UPDATE Produtos_Carrinho SET quantidade = quantidade + 1 WHERE carrinho_id = ? AND produto_id = ?';
+        } else if (action === 'decrease') {
+            queryAtualizarQuantidade = 'UPDATE Produtos_Carrinho SET quantidade = quantidade - 1 WHERE carrinho_id = ? AND produto_id = ? AND quantidade > 1';
+        }
+
+        db.query(queryAtualizarQuantidade, [carrinhoId, id], (err, results) => {
+            if (err) {
+                console.error('Erro ao atualizar quantidade do produto no carrinho no banco de dados:', err);
+                return res.status(500).send({ success: false });
+            }
+            res.send({ success: true });
+        });
+    });
+});
+
+// Rota para deletar um produto do carrinho
+app.post('/deleteProduct', (req, res) => {
+    const { id } = req.body;
+    const userId = req.session.user.id;
+
+    // Buscar o carrinho do usuário
+    const queryCarrinho = 'SELECT id FROM Carrinhos WHERE usuario_id = ?';
+    db.query(queryCarrinho, [userId], (err, carrinhoResults) => {
+        if (err) {
+            console.error('Erro ao buscar carrinho no banco de dados:', err);
+            return res.status(500).send({ success: false });
+        }
+
+        const carrinhoId = carrinhoResults[0].id;
+
+        // Deletar o produto do carrinho
+        const queryDeletarProduto = 'DELETE FROM Produtos_Carrinho WHERE carrinho_id = ? AND produto_id = ?';
+        db.query(queryDeletarProduto, [carrinhoId, id], (err, results) => {
+            if (err) {
+                console.error('Erro ao deletar produto do carrinho no banco de dados:', err);
+                return res.status(500).send({ success: false });
+            }
+            res.send({ success: true });
         });
     });
 });

@@ -22,12 +22,12 @@
                 <li class="nav-item"><a class="nav-link" href="/#customization">Customização</a></li>
                 <li class="nav-item"><a class="nav-link" href="/#contact">Contato</a></li>
                 <% if (user) { %>
+                    <li class="nav-item"><a class="nav-link" href="/cart">Carrinho</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Olá, <%= user.nome %></a></li>
                     <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                 <% } else { %>
                     <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                 <% } %>
-                <li class="nav-item"><a class="nav-link" href="/cart">Carrinho</a></li>
             </ul>
         </div>
     </header>
@@ -44,18 +44,29 @@
                                 <th>Produto</th>
                                 <th>Quantidade</th>
                                 <th>Preço</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% produtosCarrinho.forEach(produto => { %>
                                 <tr>
                                     <td><%= produto.nome_produto %></td>
-                                    <td><%= produto.quantidade %></td>
-                                    <td>R$<%= produto.preco * produto.quantidade %></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary update-quantity" data-id="<%= produto.id %>" data-action="decrease">-</button>
+                                        <%= produto.quantidade %>
+                                        <button class="btn btn-sm btn-outline-secondary update-quantity" data-id="<%= produto.id %>" data-action="increase">+</button>
+                                    </td>
+                                    <td>R$<%= (produto.preco * produto.quantidade).toFixed(2) %></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger delete-product" data-id="<%= produto.id %>">Deletar</button>
+                                    </td>
                                 </tr>
                             <% }); %>
                         </tbody>
                     </table>
+                    <div style="display: block; margin-left: auto;">
+                        <h4 style="font-weight: bold; color: green;">Total: R$<%= total.toFixed(2) %></h4>
+                    </div>                    
                 <% } else { %>
                     <p class="text-center">Seu carrinho está vazio</p>
                 <% } %>
@@ -98,8 +109,34 @@
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.update-quantity').click(function() {
+                var productId = $(this).data('id');
+                var action = $(this).data('action');
+                $.post('/updateQuantity', { id: productId, action: action }, function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert('Erro ao atualizar quantidade do produto');
+                    }
+                });
+            });
+
+            $('.delete-product').click(function() {
+                var productId = $(this).data('id');
+                $.post('/deleteProduct', { id: productId }, function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert('Erro ao deletar produto do carrinho');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
