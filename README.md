@@ -30,7 +30,7 @@ O esquema do banco de dados para TailorTech é ilustrado no diagrama a seguir:
 
 O diagrama de caso de uso abaixo representa as interações entre os usuários e o sistema, detalhando as várias funcionalidades fornecidas pelo TailorTech.
 
-![Diagrama de Caso de Uso](./TAREFAS/Casos_de_uso_-_TailorTech.png)
+![Diagrama de Caso de Uso](./TAREFAS/Casos_de_uso.png)
 
 ## Instruções de Configuração
 
