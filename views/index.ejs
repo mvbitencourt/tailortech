@@ -21,7 +21,12 @@
                 <li class="nav-item"><a class="nav-link" href="/#products">Produtos</a></li>
                 <li class="nav-item"><a class="nav-link" href="/#customization">Customização</a></li>
                 <li class="nav-item"><a class="nav-link" href="/#contact">Contato</a></li>
-                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                <% if (user) { %>
+                    <li class="nav-item"><a class="nav-link" href="#">Olá, <%= user.nome %></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+                <% } else { %>
+                    <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                <% } %>
             </ul>
         </div>
     </header>
@@ -55,38 +60,16 @@
         <div class="container">
             <h2 class="text-center">Produtos</h2>
             <div class="row">
+                <% produtos.forEach(produto => { %>
                 <div class="col-md-3">
                     <div class="product-box">
-                        <img src="/img/mouse.jpg" alt="Mouse" class="img-fluid mb-3">
-                        <h5>Mouse chamas</h5>
-                        <p>R$399,90</p>
+                        <img src="/img/<%= produto.foto_produto %>" alt="<%= produto.nome_produto %>" class="img-fluid mb-3">
+                        <h5><%= produto.nome_produto %></h5>
+                        <p>R$<%= produto.preco %></p>
                         <a href="/cart" class="btn btn-lg">Adicionar ao carrinho</a>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="product-box">
-                        <img src="/img/teclado.jpg" alt="Teclado" class="img-fluid mb-3">
-                        <h5>Teclado colorido</h5>
-                        <p>R$449,90</p>
-                        <a href="/cart" class="btn btn-lg">Adicionar ao carrinho</a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="product-box">
-                        <img src="/img/mousepad.jpg" alt="Mousepad" class="img-fluid mb-3">
-                        <h5>Mousepad coruja</h5>
-                        <p>R$39,90</p>
-                        <a href="/cart" class="btn btn-lg">Adicionar ao carrinho</a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="product-box">
-                        <img src="/img/headset.jpg" alt="Headset" class="img-fluid mb-3">
-                        <h5>Headset floral</h5>
-                        <p>R$559,90</p>
-                        <a href="/cart" class="btn btn-lg">Adicionar ao carrinho</a>
-                    </div>
-                </div>
+                <% }) %>
             </div>
         </div>
     </section>

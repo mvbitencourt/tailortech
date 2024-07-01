@@ -1,9 +1,9 @@
-// Importações e configurações
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql2');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+
 const app = express();
 const port = 3000; // Porta que o servidor vai usar, pode ser modificada conforme necessário
 
@@ -38,47 +38,44 @@ db.connect((err) => {
     console.log('Conectado ao banco de dados MySQL');
 });
 
-// Rotas
+// Rota para a página inicial
 app.get('/', (req, res) => {
-    res.render('index');
+    const query = 'SELECT * FROM Produtos';
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar produtos no banco de dados:', err);
+            return res.status(500).send('Erro ao buscar produtos');
+        }
+        res.render('index', { produtos: results, user: req.session.user });
+    });
 });
 
-app.get('/cart', (req, res) => {
-    res.render('cart');
-});
-
-// Rota para lidar com o formulário de contato (exemplo)
-app.post('/contact', (req, res) => {
-    // Lógica para lidar com o formulário de contato
-    res.send('Formulário de contato recebido!');
-});
-
+// Rota para a página de login
 app.get('/login', (req, res) => {
     res.render('login');
 });
 
 app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-
-    // Implementar lógica aqui para verificar se usuário existe e se senha é correta
-    // Se o usuário for correto, pegue o id e nome dele do banco de dados
-    // Salvar o usuário logado na sessão para poder pegar essas informações em outras páginas
-    const user = {id: 1, nome: 'Ana'};
-    req.session.user = user;
-
-    // redireciona para a página inicial após efetuar o login ou para a página de login caso
-    // email e/ou senha estejam errados
-    if (!user) {
-        res.render('index')
-    } else {
-        res.redirect('/')
-    }
+    const { email, senha } = req.body;
+    const query = 'SELECT * FROM Usuarios WHERE email = ? AND senha = ?';
+    db.query(query, [email, senha], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar usuário no banco de dados:', err);
+            return res.status(500).send('Erro ao realizar login');
+        }
+        if (results.length > 0) {
+            req.session.user = results[0];
+            res.redirect('/');
+        } else {
+            res.status(401).send('Email ou senha incorretos');
+        }
+    });
 });
 
-// Rota para fazer o logout, ela destroi o usuário salvo na sessão e redireciona para a página inicial
+// Rota para fazer o logout, ela destroi o usuário salvo na sessão e redireciona para a página de login
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('/');
+    res.redirect('/login');
 });
 
 app.get('/register', (req, res) => {
@@ -89,17 +86,13 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
     const { nome, email, senha, telefone, endereco } = req.body;
 
-    // Log para ver os dados recebidos
-    console.log('Dados recebidos do formulário:', req.body);
-
     // Inserir dados no banco de dados
-    const query = 'INSERT INTO Usuarios (nome, endereco, email, celular, senha) VALUES (?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO Usuarios (nome, email, senha, celular, endereco) VALUES (?, ?, ?, ?, ?)';
     db.query(query, [nome, email, senha, telefone, endereco], (err, results) => {
         if (err) {
             console.error('Erro ao inserir dados no banco de dados:', err);
             return res.status(500).send('Erro ao salvar dados');
         }
-        console.log('Dados inseridos com sucesso:', results);
         res.redirect('/login');
     });
 });
