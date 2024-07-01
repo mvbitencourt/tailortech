@@ -2,6 +2,10 @@
 
 TailorTech é uma plataforma de e-commerce projetada para customização e compra de itens sob medida. O sistema inclui registro de usuário, navegação de produtos, gerenciamento de carrinho de compras e processamento de pedidos.
 
+## Autores
+
+Este projeto foi desenvolvido por Ana Cristina Pereira Morais e Marcus Vinícius Bitencourt para a matéria de Empreendedor em Informática do curso de Ciência da Computação da Universidade Estadual de Santa Cruz (UESC).
+
 ## Índice
 
 - [Esquema do Banco de Dados](#esquema-do-banco-de-dados)
@@ -9,6 +13,7 @@ TailorTech é uma plataforma de e-commerce projetada para customização e compr
 - [Diagrama de Caso de Uso](#diagrama-de-caso-de-uso)
 - [Instruções de Configuração](#instruções-de-configuração)
 - [Uso](#uso)
+- [Pasta TAREFAS](#pasta-TAREFAS)
 
 ## Esquema do Banco de Dados
 
@@ -62,3 +67,14 @@ O diagrama de caso de uso abaixo representa as interações entre os usuários e
 - **Gerenciamento de Carrinho de Compras**: Os usuários podem adicionar, editar e remover produtos do carrinho de compras.
 - **Processamento de Pedidos**: Os usuários podem preencher formulários de carrinho e confirmar suas compras.
 
+
+## Pasta TAREFAS
+
+A pasta `TAREFAS` contém arquivos importantes para o desenvolvimento e a documentação do projeto. Abaixo está uma descrição dos arquivos presentes nesta pasta:
+
+- **Diagrama_ER.png**: Este arquivo apresenta o diagrama de entidade-relacionamento (ER) que ilustra a estrutura do banco de dados do projeto TailorTech.
+- **Casos_de_uso.png**: Este arquivo apresenta o diagrama de casos de uso, mostrando as interações entre os usuários e o sistema.
+- **modelo de front-end**: Este arquivo contém o modelo de front-end do projeto feito na plataforma Mobirise.
+- **Plano de negócio**: Este arquivo contém o plano de negócios do nosso e-commerce feito de acordo com as normas do SEBRAE.
+- **TailorTech_Canvas**: Este arquivo contém o Canvas do nosso e-commerce.
+- **E-commerce de periféricos personalizáveis**: Este arquivo contém o projeto de fundação do nosso e-commerce.
