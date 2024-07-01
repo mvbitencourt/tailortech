@@ -14,7 +14,7 @@ TailorTech é uma plataforma de e-commerce projetada para customização e compr
 
 O esquema do banco de dados para TailorTech é ilustrado no diagrama a seguir:
 
-![Esquema do Banco de Dados](./Diagrama_ER.png)
+![Esquema do Banco de Dados](./TAREFAS/Diagrama_ER.png)
 
 ### Tabelas
 
@@ -30,7 +30,7 @@ O esquema do banco de dados para TailorTech é ilustrado no diagrama a seguir:
 
 O diagrama de caso de uso abaixo representa as interações entre os usuários e o sistema, detalhando as várias funcionalidades fornecidas pelo TailorTech.
 
-![Diagrama de Caso de Uso](./Casos_de_uso_-_TailorTech.png)
+![Diagrama de Caso de Uso](./TAREFAS/Casos_de_uso_-_TailorTech.png)
 
 ## Instruções de Configuração
 
