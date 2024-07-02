@@ -11,6 +11,11 @@
     <main class="login-container">
         <div class="login-box">
             <h2>Login</h2>
+            <% if (message) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= message %>
+                </div>
+            <% } %>
             <form action="/login" method="POST">
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="senha" placeholder="Senha" required>

@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
 
 // Rota para a página de login
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', { message: null });
 });
 
 app.post('/login', (req, res) => {
@@ -67,7 +67,7 @@ app.post('/login', (req, res) => {
             req.session.user = results[0];
             res.redirect('/');
         } else {
-            res.status(401).send('Email ou senha incorretos');
+            res.render('login', { message: 'Email ou senha incorretos' });
         }
     });
 });
