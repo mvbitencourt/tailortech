@@ -2,10 +2,6 @@
 
 TailorTech é uma plataforma de e-commerce projetada para customização e compra de itens sob medida. O sistema inclui registro de usuário, navegação de produtos, gerenciamento de carrinho de compras e processamento de pedidos.
 
-## Autores
-
-Este projeto foi desenvolvido por Ana Cristina Pereira Morais e Marcus Vinícius Bitencourt para a matéria de Empreendedor em Informática do curso de Ciência da Computação da Universidade Estadual de Santa Cruz (UESC).
-
 ## Índice
 
 - [Esquema do Banco de Dados](#esquema-do-banco-de-dados)
@@ -14,6 +10,8 @@ Este projeto foi desenvolvido por Ana Cristina Pereira Morais e Marcus Vinícius
 - [Instruções de Configuração](#instruções-de-configuração)
 - [Uso](#uso)
 - [Pasta TAREFAS](#pasta-TAREFAS)
+- [Autores](#autores)
+- [Licença](#licença)
 
 ## Esquema do Banco de Dados
 
@@ -78,3 +76,11 @@ A pasta `TAREFAS` contém arquivos importantes para o desenvolvimento e a docume
 - **Plano de negócio**: Este arquivo contém o plano de negócios do nosso e-commerce feito de acordo com as normas do SEBRAE.
 - **TailorTech_Canvas**: Este arquivo contém o Canvas do nosso e-commerce.
 - **E-commerce de periféricos personalizáveis**: Este arquivo contém o projeto de fundação do nosso e-commerce.
+
+## Autores
+
+- Ana Cristina Pereira Morais
+- Marcus Vinícius Bitencourt
+
+## Licença
+Este projeto é licenciado sob a MIT License.
