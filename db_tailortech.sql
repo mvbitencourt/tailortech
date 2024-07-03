@@ -15,6 +15,10 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Criação do Banco de Dados
+CREATE DATABASE IF NOT EXISTS db_tailortech;
+USE db_tailortech;
+
 --
 -- Table structure for table `carrinhos`
 --

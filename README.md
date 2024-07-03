@@ -50,8 +50,13 @@ O diagrama de caso de uso abaixo representa as interações entre os usuários e
     npm install
     ```
 4. Configure o banco de dados:
-    - Crie as tabelas necessárias conforme ilustrado no esquema do banco de dados.
-    - Configure as configurações de conexão do banco de dados no aplicativo.
+    - No menu superior, clique em "Server".
+    - Selecione "Data Import".
+    - Em "Import Options", selecione "Import from Self-Contained File".
+    - Clique em "..." e navegue até o local onde o arquivo `db_tailortech.sql` está salvo e selecione-o.
+    - Clique em "Start Import" para iniciar o processo de importação.
+    - Aguarde até que o processo seja concluído.
+    - No arquivo app.js, você encontrará a configuração de conexão com o banco de dados entre as linhas 25 2 30. É necessário mudar as credenciais de acordo com a configuração do mySQL local.
 
 5. Inicie o servidor de desenvolvimento:
     ```bash
@@ -81,6 +86,3 @@ A pasta `TAREFAS` contém arquivos importantes para o desenvolvimento e a docume
 
 - Ana Cristina Pereira Morais
 - Marcus Vinícius Bitencourt
-
-## Licença
-Este projeto é licenciado sob a MIT License.
